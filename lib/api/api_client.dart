@@ -156,4 +156,7 @@ class ApiClient {
   
   Future<List<SimpleEquipment>> getListEquipments() =>
       _post("/caede3a6-d7e5-4a50-b283-4b20b07eb3fb/run");
+
+  Future<Equipment> getEquipment(String id) =>
+      _post("/22bedbbd-9b7b-43d3-8f2f-e53f90b1faf9/run", body: {"obj": id});
 }

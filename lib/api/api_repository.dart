@@ -12,7 +12,7 @@ import 'cache_dates.dart';
 import 'refs_counter.dart';
 
 
-typedef CacheId = (Type type, int id);
+typedef CacheId = (Type type, String id);
 
 class ApiRepository {
   ApiRepository({
@@ -99,8 +99,8 @@ class ApiRepository {
 
   /// Creates data stream from wrapped fetch call.
   Stream<T> _createDataStream<T extends Object>(
-    Future<void> Function(int id) wrappedFetchCall,
-    int id,
+    Future<void> Function(String id) wrappedFetchCall,
+    String id,
   ) {
     final cacheId = (T, id);
     final controller = controllers.putIfAbsent(
@@ -133,8 +133,8 @@ class ApiRepository {
   /// Wrapped call doesn't return data, but instead updates corresponding data
   /// stream.
   Future<void> _wrapFetchCall<T extends Object>(
-    Future<T> Function(int id) makeRequest,
-    int id,
+    Future<T> Function(String id) makeRequest,
+    String id,
   ) {
     final cacheId = (T, id);
     return requestsLocks.putIfAbsent(
@@ -151,7 +151,7 @@ class ApiRepository {
     );
   }
 
-  void _commitObject<T extends Object>(int id, T data) {
+  void _commitObject<T extends Object>(String id, T data) {
     final cacheId = (T, id);
     cache[cacheId] = data;
     cacheDates.update(data);
@@ -159,7 +159,7 @@ class ApiRepository {
       controller.add(data);
     }
   }
-  void _commitError<T extends Object>(int id, Object error, [StackTrace? stackTrace]) {
+  void _commitError<T extends Object>(String id, Object error, [StackTrace? stackTrace]) {
     if (controllers[(T, id)] case final controller?) {
       controller.addError(error, stackTrace);
     } else {
@@ -174,13 +174,25 @@ class ApiRepository {
   Future<void> fetchEquipmentList() =>
     _wrapFetchCall(
       (id) async => client.getListEquipments(),
-      -1,
+      "-1",
     );
 
   Stream<List<SimpleEquipment>> getEquipmentList() =>
     _createDataStream(
       (id) async => fetchEquipmentList(),
-      -1,
+      "-1",
+    );
+
+  Future<void> fetchEquipment(String equipmentId) =>
+    _wrapFetchCall(
+      (id) async => client.getEquipment(equipmentId),
+      equipmentId,
+    );
+
+  Stream<Equipment> getEquipment(String equipmentId) =>
+    _createDataStream(
+      (id) async => fetchEquipment(equipmentId),
+      equipmentId,
     );
   //
   // Future<void> fetchMeme(int galleryId, int memeId) =>

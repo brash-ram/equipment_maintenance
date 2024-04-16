@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    EmptyRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EmptyRouterPage(),
+      );
+    },
     EquipmentComplexListRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -28,9 +34,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     EquipmentRoute.name: (routeData) {
+      final args = routeData.argsAs<EquipmentRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const EquipmentScreen(),
+        child: EquipmentScreen(
+          key: args.key,
+          equipmentId: args.equipmentId,
+          readonly: args.readonly,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -40,6 +51,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [EmptyRouterPage]
+class EmptyRouter extends PageRouteInfo<void> {
+  const EmptyRouter({List<PageRouteInfo>? children})
+      : super(
+          EmptyRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -72,16 +97,45 @@ class EquipmentListRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [EquipmentScreen]
-class EquipmentRoute extends PageRouteInfo<void> {
-  const EquipmentRoute({List<PageRouteInfo>? children})
-      : super(
+class EquipmentRoute extends PageRouteInfo<EquipmentRouteArgs> {
+  EquipmentRoute({
+    Key? key,
+    required String equipmentId,
+    required bool readonly,
+    List<PageRouteInfo>? children,
+  }) : super(
           EquipmentRoute.name,
+          args: EquipmentRouteArgs(
+            key: key,
+            equipmentId: equipmentId,
+            readonly: readonly,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'EquipmentRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<EquipmentRouteArgs> page =
+      PageInfo<EquipmentRouteArgs>(name);
+}
+
+class EquipmentRouteArgs {
+  const EquipmentRouteArgs({
+    this.key,
+    required this.equipmentId,
+    required this.readonly,
+  });
+
+  final Key? key;
+
+  final String equipmentId;
+
+  final bool readonly;
+
+  @override
+  String toString() {
+    return 'EquipmentRouteArgs{key: $key, equipmentId: $equipmentId, readonly: $readonly}';
+  }
 }
 
 /// generated route for

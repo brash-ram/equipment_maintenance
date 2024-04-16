@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:equipment_maintenance/api/table_repository.dart';
 import 'package:equipment_maintenance/bloc/bloc_state.dart';
 import 'package:equipment_maintenance/bloc/equipment_list_bloc.dart';
+import 'package:equipment_maintenance/core/router.dart';
 import 'package:equipment_maintenance/data/all_data.dart';
 import 'package:equipment_maintenance/data/enum/equipment_status_code.dart';
 import 'package:equipment_maintenance/logging.dart';
@@ -77,8 +79,8 @@ class _EquipmentTableState extends State<EquipmentTable> {
           title: "Статус",
           chipFormatter: (status) => 'Статус ${status.name.toLowerCase()}',
           items: const [
-            DropdownMenuItem(value: EquipmentStatusCode.installed, child: Text("installed")),
-            DropdownMenuItem(value: EquipmentStatusCode.withdrawn, child: Text("withdrawn")),
+            DropdownMenuItem(value: EquipmentStatusCode.installed, child: Text("В эксплуатации")),
+            DropdownMenuItem(value: EquipmentStatusCode.withdrawn, child: Text("Выведено из эксплуатации")),
           ]
         ),
         DropdownTableFilter<String>(
@@ -138,8 +140,8 @@ class _EquipmentTableState extends State<EquipmentTable> {
             child: Container(
               decoration: BoxDecoration(
                 color: switch (item.criticalityCode) {
-                  "1"
-                  "2" => Colors.green,
+                  "1" => Colors.red,
+                  "2" => Colors.red,
                   "3" => Colors.yellow,
                   "4" => Colors.green,
                   "5" => Colors.grey,
@@ -154,8 +156,13 @@ class _EquipmentTableState extends State<EquipmentTable> {
           title: "",
           cellBuilder: (item) => SizedBox.expand(
             child: Center(child: ElevatedButton(
-              onPressed: () {
-
+              onPressed: () async {
+                await AutoRouter.of(context).navigate(
+                  EquipmentRoute(
+                    equipmentId: item.id,
+                    readonly: item.statusCode == EquipmentStatusCode.withdrawn,
+                  )
+                );
               },
               child: const Text(
                 "Подробнее",
