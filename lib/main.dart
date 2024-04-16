@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'app.dart';
+import 'data/all_data.init.dart';
+
 void main() {
-  // runApp();
+  initializeMappers();
+  runApp(const App());
 }
