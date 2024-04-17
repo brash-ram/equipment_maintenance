@@ -13,7 +13,10 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = BlocProvider.of<EquipmentListBloc>(context).state.value![index].selected;
+    final state = BlocProvider.of<EquipmentListBloc>(context).state;
+    bool isSelected = state.value![index].selected ||
+        ((state.value?.where((element) => element.selected).isEmpty ?? true) &&
+        index == 0);
     final theme = Theme.of(context);
     final textTheme = theme.textTheme.bodyMedium?.copyWith(
       color: isSelected ? theme.colorScheme.onPrimary : Colors.black,
@@ -32,32 +35,23 @@ class ListItem extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                flex: 1,
-                child: ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
-                  selector: (value) => value,
-                  builder: (context, value) => Text(
-                    value[index].code,
-                    style: textTheme,
-                  )
-                ),
+          ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
+            selector: (value) => value,
+            builder: (context, value) => Text(
+              value[index].code,
+              style: textTheme?.copyWith(
+                fontWeight: FontWeight.bold
               ),
-              const SizedBox(width: 8.0,),
-              Expanded(
-                flex: 5,
-                child: ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
-                  selector: (value) => value,
-                  builder: (context, value) => Text(
-                    value[index].name,
-                    style: textTheme,
-                  )
-                ),
-              ),
-            ],
+            )
           ),
+          ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
+            selector: (value) => value,
+            builder: (context, value) => Text(
+              value[index].name,
+              style: textTheme,
+            )
+          ),
+          const SizedBox(height: 4.0,),
           ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
             selector: (value) => value,
             builder: (context, value) => Text(
@@ -65,6 +59,7 @@ class ListItem extends StatelessWidget {
               style: textTheme,
             )
           ),
+          const SizedBox(height: 4.0,),
           ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
             selector: (value) => value,
             builder: (context, value) => Text(

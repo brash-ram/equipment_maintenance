@@ -19,11 +19,11 @@ class EquipmentTable extends StatefulWidget {
 }
 
 class _EquipmentTableState extends State<EquipmentTable> {
-  late PagedDataTableController<String, String, SimpleEquipment> tableController;
+  late PagedDataTableController<String, SimpleEquipment> tableController;
 
   @override
   void initState() {
-    tableController = PagedDataTableController<String, String, SimpleEquipment>();
+    tableController = PagedDataTableController<String, SimpleEquipment>();
     super.initState();
   }
 
@@ -43,151 +43,178 @@ class _EquipmentTableState extends State<EquipmentTable> {
     final fields = translations.equipment.fields;
     final table = translations.table;
     final enums = translations.enums;
-    return PagedDataTable<String, String, SimpleEquipment>(
-      rowsSelectable: false,
-      controller: tableController,
-      fetchPage: (pageToken, pageSize, sortBy, filtering) async {
-        return context.read<TableRepository>().filtering(
-          equipmentList: widget.values,
-          pageSize: pageSize,
-          pageToken: pageToken,
-          sortDescending: sortBy?.descending ?? false,
-          code: filtering.valueOrNullAs<String>("code"),
-          name: filtering.valueOrNullAs<String>("name"),
-          criticality: filtering.valueOrNullAs<String>("criticality"),
-          status: filtering.valueOrNullAs<EquipmentStatusCode>("status")
-        );
-      },
-      initialPage: "",
-      idGetter: (e) => e.id,
-      footer: TextButton(
-        onPressed: () async {
-          await context.read<EquipmentListBloc>().reset();
-        },
-        child: Text(table.reloadDate),
+    return PagedDataTableTheme(
+      data: PagedDataTableThemeData(
+        cellPadding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6.0),
+        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+        cellTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+          fontSize: 11.0
+        ),
+        headerTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+          fontWeight: FontWeight.bold,
+        )
       ),
-      filters: [
-        TextTableFilter(
-          id: "code",
-          title: fields.code,
-          chipFormatter: (text) => "${fields.code} $text"
+      child: PagedDataTable<String, SimpleEquipment>(
+        controller: tableController,
+        initialPage: "",
+        initialPageSize: 100,
+        pageSizes: const [5, 10, 20, 50, 100],
+        fetcher: (int pageSize, SortModel? sortBy, FilterModel filtering, String? pageToken) {
+          return context.read<TableRepository>().filtering(
+            equipmentList: widget.values,
+            pageSize: pageSize,
+            pageToken: pageToken,
+            sortDescending: sortBy?.descending ?? false,
+            code: filtering["code"],
+            name: filtering["name"],
+            criticality: filtering["criticality"],
+            status: filtering["status"]
+          );
+        },
+        footer: TextButton(
+          onPressed: () async {
+            await context.read<EquipmentListBloc>().reset();
+          },
+          child: Text(table.reloadDate),
         ),
-        TextTableFilter(
-          id: "name",
-          title: fields.name,
-          chipFormatter: (text) => "${fields.name} $text"
-        ),
-        DropdownTableFilter<EquipmentStatusCode>(
-          id: "status",
-          title: fields.status,
-          chipFormatter: (status) =>
-          '${fields.status} '
-              '${translations["enums.equipmentStatusCode.${status.name.toLowerCase()}"]}',
-          items: [
-            DropdownMenuItem(
-              value: EquipmentStatusCode.installed,
-              child: Text(enums.equipmentStatusCode.installed)
-            ),
-            DropdownMenuItem(
-              value: EquipmentStatusCode.withdrawn,
-              child: Text(enums.equipmentStatusCode.withdrawn)
+        filters: [
+          TextTableFilter(
+            id: "code",
+            name: fields.code,
+            chipFormatter: (text) => "${fields.code} $text",
+          ),
+          TextTableFilter(
+            id: "name",
+            name: fields.name,
+            chipFormatter: (text) => "${fields.name} $text"
+          ),
+          DropdownTableFilter<EquipmentStatusCode>(
+            id: "status",
+            name: fields.status,
+            chipFormatter: (status) =>
+            '${fields.status} '
+                '${translations["enums.equipmentStatusCode.${status.name.toLowerCase()}"]}',
+            items: [
+              DropdownMenuItem(
+                value: EquipmentStatusCode.installed,
+                child: Text(enums.equipmentStatusCode.installed)
+              ),
+              DropdownMenuItem(
+                value: EquipmentStatusCode.withdrawn,
+                child: Text(enums.equipmentStatusCode.withdrawn)
+              ),
+            ]
+          ),
+          DropdownTableFilter<String>(
+            id: "criticality",
+            name: fields.criticality,
+            chipFormatter: (value) =>
+            '${fields.criticality} '
+                '${translations["enums.criticalityCode._$value"]}',
+            items: ["1", "2", "3", "4", "5"].map((e) =>
+                DropdownMenuItem(
+                    value: e,
+                    child: Text(translations["enums.criticalityCode._$e"]))
+            ).toList()
+          ),
+        ],
+        filterBarChild: PopupMenuButton(
+          icon: const Icon(Icons.more_vert_outlined),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: Text(table.clearFilters),
+              onTap: () {
+                tableController.removeFilters();
+              },
             ),
           ]
         ),
-        DropdownTableFilter<String>(
-          id: "criticality",
-          title: fields.criticality,
-          chipFormatter: (value) =>
-          '${fields.criticality} '
-              '${translations["enums.criticalityCode._$value"]}',
-          items: ["1", "2", "3", "4", "5"].map((e) =>
-              DropdownMenuItem(
-                  value: e,
-                  child: Text(translations["enums.criticalityCode._$e"]))
-          ).toList()
-        ),
-      ],
-      menu: PagedDataTableFilterBarMenu(
-        items: [
-          FilterMenuItem(
-            title: Text(table.clearFilters),
-            onTap: () {
-              tableController.removeFilters();
-            },
+        columns: [
+          TableColumn(
+            id: "code",
+            size: const FractionalColumnSize(0.12),
+            title: Center(child: Text(fields.code, textAlign: TextAlign.center)),
+            cellBuilder: (context, item, i) => Text(item.code),
+            sortable: true,
           ),
-        ]
-      ),
-      columns: [
-        TableColumn(
-          title: fields.id,
-          cellBuilder: (item) => Text(item.id.toString()),
-          sizeFactor: 0.2,
-        ),
-        TableColumn(
-          id: "code",
-          title: fields.code,
-          cellBuilder: (item) => Text(item.code),
-          sortable: true,
-        ),
-        LargeTextTableColumn(
-          title: fields.name,
-          sizeFactor: 0.3,
-          getter: (value) => value.name,
-          setter: (value, newValue, rowIndex) => true,
-        ),
-        TableColumn(
-          title: fields.status,
-          sizeFactor: 0.149,
-          cellBuilder: (item) => SizedBox.expand(
-            child: Container(
-              decoration: BoxDecoration(
-                color: switch (item.statusCode) {
-                  EquipmentStatusCode.installed => Colors.green,
-                  EquipmentStatusCode.withdrawn => Colors.grey
-                }
-              ),
-              child: Center(child: Text(item.status))
-            ),
+          LargeTextTableColumn(
+            title: Center(child: Text(fields.name, textAlign: TextAlign.center)),
+            size: const FractionalColumnSize(0.35),
+            getter: (value, i) => value.name,
+            setter: (value, newValue, rowIndex) => true,
+            fieldLabel: fields.name,
           ),
-        ),
-        TableColumn(
-          title: fields.criticality,
-          sizeFactor: 0.15,
-          cellBuilder: (item) => SizedBox.expand(
-            child: Container(
-              decoration: BoxDecoration(
-                color: switch (item.criticalityCode) {
-                  "1" => Colors.red,
-                  "2" => Colors.red,
-                  "3" => Colors.yellow,
-                  "4" => Colors.green,
-                  "5" => Colors.grey,
-                  _ => Colors.grey
-                }
-              ),
-              child: Center(child: Text(item.criticality))
-            ),
-          ),
-        ),
-        TableColumn(
-          title: "",
-          cellBuilder: (item) => SizedBox.expand(
-            child: Center(child: ElevatedButton(
-              onPressed: () async {
-                await AutoRouter.of(context).navigate(
-                  EquipmentRoute(
-                    equipmentId: item.id,
-                    readonly: item.statusCode == EquipmentStatusCode.withdrawn,
+          TableColumn(
+            title: Center(child: Text(fields.status, textAlign: TextAlign.center)),
+            size: const FractionalColumnSize(0.4),
+            cellBuilder: (context, item, i) => SizedBox.expand(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: switch (item.statusCode) {
+                    EquipmentStatusCode.installed => Colors.green,
+                    EquipmentStatusCode.withdrawn => Colors.grey
+                  }
+                ),
+                child: Center(
+                  child: Text(
+                    item.status,
+                    textAlign: TextAlign.center,
                   )
-                );
-              },
-              child: Text(
-                table.detailsButton,
+                )
               ),
-            )),
+            ),
           ),
-        ),
-      ],
+          TableColumn(
+            title: Center(child: Text(fields.criticality, textAlign: TextAlign.center)),
+            size: const FractionalColumnSize(0.5),
+            cellBuilder: (context, item, i) => SizedBox.expand(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: switch (item.criticalityCode) {
+                    "1" => Colors.red,
+                    "2" => Colors.red,
+                    "3" => Colors.yellow,
+                    "4" => Colors.green,
+                    "5" => Colors.grey,
+                    _ => Colors.grey
+                  }
+                ),
+                child: Center(
+                    child: Text(
+                      item.criticality,
+                      textAlign: TextAlign.center,
+                    )
+                )
+              ),
+            ),
+          ),
+          TableColumn(
+            title: const Text(""),
+            size: const FractionalColumnSize(1),
+            cellBuilder: (context, item, i) => SizedBox.expand(
+              child: InkWell(
+                onTap: () async {
+                  await AutoRouter.of(context).navigate(
+                    EquipmentRoute(
+                      equipmentId: item.id,
+                      readonly: item.statusCode == EquipmentStatusCode.withdrawn,
+                    )
+                  );
+                },
+                child: SizedBox.expand(
+                  child: Center(
+                    child: Text(
+                      table.detailsButton,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

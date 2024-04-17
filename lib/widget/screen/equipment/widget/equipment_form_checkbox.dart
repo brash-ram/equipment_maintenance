@@ -15,12 +15,13 @@ class EquipmentFormCheckbox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             flex: 2,
             child: Text(
               fieldName,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyMedium,
             )
           ),
           Expanded(

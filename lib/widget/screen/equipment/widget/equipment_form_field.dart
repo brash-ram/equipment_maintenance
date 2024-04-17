@@ -10,19 +10,15 @@ class EquipmentFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              fieldName,
-              style: Theme.of(context).textTheme.bodyLarge,
-            )
+          Text(
+            fieldName,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-          Expanded(
-            flex: 3,
-            child: EquipmentTextField(initValue: fieldValue ?? "")
-          )
+          EquipmentTextField(initValue: fieldValue ?? "")
         ],
       ),
     );

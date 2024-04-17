@@ -16,8 +16,7 @@ class EquipmentTableScreen extends StatelessWidget {
     return BlocProvider.value(
       value: EquipmentListBloc(context.read(),),
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
+        body: SafeArea(
           child: ModelBlocDataSelector<EquipmentListBloc, List<SimpleEquipment>, List<SimpleEquipment>>(
             selector: (value) => value,
             builder: (context, value) => EquipmentTable(values: value)

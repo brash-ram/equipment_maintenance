@@ -14,9 +14,11 @@ class EquipmentComplexListScreen extends StatelessWidget {
     return BlocProvider.value(
       value: EquipmentListBloc(context.read(),),
       child: const Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: ComplexList(),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ComplexList(),
+          ),
         ),
       ),
     );

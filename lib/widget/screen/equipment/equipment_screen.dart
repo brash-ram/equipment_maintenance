@@ -25,9 +25,11 @@ class EquipmentScreen extends StatelessWidget {
             builder: (context, value) => Text(value ?? "")
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: EquipmentDetails(),
+        body: const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: EquipmentDetails(),
+          ),
         ),
       ),
     );

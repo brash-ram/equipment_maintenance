@@ -1,6 +1,5 @@
 import 'package:equipment_maintenance/data/all_data.dart';
 import 'package:equipment_maintenance/data/enum/equipment_status_code.dart';
-import 'package:paged_datatable/paged_datatable.dart';
 
 typedef FilterFunctionChain = bool Function(SimpleEquipment equipment);
 
@@ -8,10 +7,10 @@ class TableRepository {
   TableRepository();
 
 
-  PaginationResult<String, SimpleEquipment> filtering({
+  (List<SimpleEquipment>, String?) filtering({
     required List<SimpleEquipment> equipmentList,
     required int pageSize,
-    required String pageToken,
+    required String? pageToken,
     String? code,
     String? name,
     String? criticality,
@@ -42,10 +41,7 @@ class TableRepository {
       nextPageToken = lastPost.id.toString();
     }
 
-    return PaginationResult.items(
-      elements: resultList,
-      nextPageToken: nextPageToken
-    );
+    return (resultList, nextPageToken);
   }
 
   FilterFunctionChain _generateFilterFunctionChain({
