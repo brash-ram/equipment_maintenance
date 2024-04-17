@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/equipment_list_bloc.dart';
-import '../../../data/all_data.dart';
-import '../../model_bloc_data_selector.dart';
 
 @RoutePage()
 class EquipmentComplexListScreen extends StatelessWidget {

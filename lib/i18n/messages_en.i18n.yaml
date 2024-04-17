@@ -1,0 +1,48 @@
+app:
+  name: Equipment maintenance
+
+equipment:
+  fields:
+    id: ID
+    code: Code
+    name: Name
+    status: Status
+    criticality: Criticality
+    department: Department
+    hierarchyLevelType: Type of asset in the structure
+    costCode: Cost code
+    inventoryNumber: Inventory number
+    model: Model
+    commissDate: Commissioning date
+    initialValue: Initial cost
+    serialNumber: Serial number
+    installationDate: Installation date
+    ecology: Ecology
+    safety: Safety
+    dormantCauseName: Dormant cause
+    dormantStartDate: Dormant start date
+    dormantEndDate: Dormant end date
+  details:
+    general: Total information
+    passport: Passport
+    operatingParameters: Operating parameters
+
+table:
+  detailsButton: More details
+  clearFilters: Clear filters
+  reloadDate: Update data from server
+
+enums:
+  equipmentStatusCode:
+    installed: In operation
+    withdrawn: Out of service
+  criticalityCode:
+    _1: Very critical
+    _2: Critical
+    _3: Medium critical
+    _4: Little critical
+    _5: Not critical
+
+home:
+  table: Table
+  list: Complex list

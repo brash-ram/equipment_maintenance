@@ -27,12 +27,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EquipmentComplexListScreen(),
       );
     },
-    EquipmentListRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const EquipmentListScreen(),
-      );
-    },
     EquipmentRoute.name: (routeData) {
       final args = routeData.argsAs<EquipmentRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -42,6 +36,12 @@ abstract class _$AppRouter extends RootStackRouter {
           equipmentId: args.equipmentId,
           readonly: args.readonly,
         ),
+      );
+    },
+    EquipmentTableRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EquipmentTableScreen(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -77,20 +77,6 @@ class EquipmentComplexListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EquipmentComplexListRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [EquipmentListScreen]
-class EquipmentListRoute extends PageRouteInfo<void> {
-  const EquipmentListRoute({List<PageRouteInfo>? children})
-      : super(
-          EquipmentListRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'EquipmentListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -136,6 +122,20 @@ class EquipmentRouteArgs {
   String toString() {
     return 'EquipmentRouteArgs{key: $key, equipmentId: $equipmentId, readonly: $readonly}';
   }
+}
+
+/// generated route for
+/// [EquipmentTableScreen]
+class EquipmentTableRoute extends PageRouteInfo<void> {
+  const EquipmentTableRoute({List<PageRouteInfo>? children})
+      : super(
+          EquipmentTableRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EquipmentTableRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

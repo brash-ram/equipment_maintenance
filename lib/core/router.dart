@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../widget/screen/equipment/equipment_screen.dart';
 import '../widget/screen/equipment_complex_list/equipment_complex_list_screen.dart';
-import '../widget/screen/equipment_list/equipment_list_screen.dart';
+import '../widget/screen/equipment_table/equipment_table_screen.dart';
 import '../widget/screen/home/home_screen.dart';
 import 'empty_router_pages.dart';
 
@@ -28,7 +28,7 @@ class AppRouter extends _$AppRouter {
           initial: true,
           children: [
             AutoRoute(
-              page: EquipmentListRoute.page,
+              page: EquipmentTableRoute.page,
               path: '',
             ),
             AutoRoute(

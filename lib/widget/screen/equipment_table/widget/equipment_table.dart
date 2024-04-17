@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:equipment_maintenance/api/table_repository.dart';
-import 'package:equipment_maintenance/bloc/bloc_state.dart';
 import 'package:equipment_maintenance/bloc/equipment_list_bloc.dart';
 import 'package:equipment_maintenance/core/router.dart';
 import 'package:equipment_maintenance/data/all_data.dart';
 import 'package:equipment_maintenance/data/enum/equipment_status_code.dart';
+import 'package:equipment_maintenance/i18n/strings.g.dart';
 import 'package:equipment_maintenance/logging.dart';
-import 'package:equipment_maintenance/widget/model_bloc_data_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paged_datatable/paged_datatable.dart';
@@ -40,6 +39,10 @@ class _EquipmentTableState extends State<EquipmentTable> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = Translations.of(context);
+    final fields = translations.equipment.fields;
+    final table = translations.table;
+    final enums = translations.enums;
     return PagedDataTable<String, String, SimpleEquipment>(
       rowsSelectable: false,
       controller: tableController,
@@ -61,39 +64,53 @@ class _EquipmentTableState extends State<EquipmentTable> {
         onPressed: () async {
           await context.read<EquipmentListBloc>().reset();
         },
-        child: const Text("Обновить данные с сервера"),
+        child: Text(table.reloadDate),
       ),
       filters: [
         TextTableFilter(
           id: "code",
-          title: "Код оборудования",
-          chipFormatter: (text) => "Код $text"
+          title: fields.code,
+          chipFormatter: (text) => "${fields.code} $text"
         ),
         TextTableFilter(
           id: "name",
-          title: "Наименование",
-          chipFormatter: (text) => "Наименование $text"
+          title: fields.name,
+          chipFormatter: (text) => "${fields.name} $text"
         ),
         DropdownTableFilter<EquipmentStatusCode>(
           id: "status",
-          title: "Статус",
-          chipFormatter: (status) => 'Статус ${status.name.toLowerCase()}',
-          items: const [
-            DropdownMenuItem(value: EquipmentStatusCode.installed, child: Text("В эксплуатации")),
-            DropdownMenuItem(value: EquipmentStatusCode.withdrawn, child: Text("Выведено из эксплуатации")),
+          title: fields.status,
+          chipFormatter: (status) =>
+          '${fields.status} '
+              '${translations["enums.equipmentStatusCode.${status.name.toLowerCase()}"]}',
+          items: [
+            DropdownMenuItem(
+              value: EquipmentStatusCode.installed,
+              child: Text(enums.equipmentStatusCode.installed)
+            ),
+            DropdownMenuItem(
+              value: EquipmentStatusCode.withdrawn,
+              child: Text(enums.equipmentStatusCode.withdrawn)
+            ),
           ]
         ),
         DropdownTableFilter<String>(
           id: "criticality",
-          title: "Критичность",
-          chipFormatter: (value) => 'Критичность $value',
-          items: ["1", "2", "3", "4", "5"].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList()
+          title: fields.criticality,
+          chipFormatter: (value) =>
+          '${fields.criticality} '
+              '${translations["enums.criticalityCode._$value"]}',
+          items: ["1", "2", "3", "4", "5"].map((e) =>
+              DropdownMenuItem(
+                  value: e,
+                  child: Text(translations["enums.criticalityCode._$e"]))
+          ).toList()
         ),
       ],
       menu: PagedDataTableFilterBarMenu(
         items: [
           FilterMenuItem(
-            title: const Text("Очистить фильтры"),
+            title: Text(table.clearFilters),
             onTap: () {
               tableController.removeFilters();
             },
@@ -102,24 +119,24 @@ class _EquipmentTableState extends State<EquipmentTable> {
       ),
       columns: [
         TableColumn(
-          title: "ID",
+          title: fields.id,
           cellBuilder: (item) => Text(item.id.toString()),
           sizeFactor: 0.2,
         ),
         TableColumn(
           id: "code",
-          title: "Код оборудования",
+          title: fields.code,
           cellBuilder: (item) => Text(item.code),
           sortable: true,
         ),
         LargeTextTableColumn(
-          title: "Наименование",
+          title: fields.name,
           sizeFactor: 0.3,
           getter: (value) => value.name,
           setter: (value, newValue, rowIndex) => true,
         ),
         TableColumn(
-          title: "Статус",
+          title: fields.status,
           sizeFactor: 0.149,
           cellBuilder: (item) => SizedBox.expand(
             child: Container(
@@ -134,7 +151,7 @@ class _EquipmentTableState extends State<EquipmentTable> {
           ),
         ),
         TableColumn(
-          title: "Критичность",
+          title: fields.criticality,
           sizeFactor: 0.15,
           cellBuilder: (item) => SizedBox.expand(
             child: Container(
@@ -164,8 +181,8 @@ class _EquipmentTableState extends State<EquipmentTable> {
                   )
                 );
               },
-              child: const Text(
-                "Подробнее",
+              child: Text(
+                table.detailsButton,
               ),
             )),
           ),

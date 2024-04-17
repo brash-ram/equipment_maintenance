@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppCheckbox extends StatefulWidget {
-  const AppCheckbox({super.key, required this.checked});
+  const AppCheckbox({super.key, required this.checked, required this.readonly});
   final bool checked;
+  final bool readonly;
 
   @override
   State<AppCheckbox> createState() => _AppCheckboxState();
@@ -22,7 +23,7 @@ class _AppCheckboxState extends State<AppCheckbox> {
   Widget build(BuildContext context) {
     return Checkbox(
       value: checked,
-      onChanged: (value) {
+      onChanged: widget.readonly ? null : (value) {
         setState(() {
           checked = value;
         });

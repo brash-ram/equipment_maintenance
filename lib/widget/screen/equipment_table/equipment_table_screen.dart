@@ -1,17 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:equipment_maintenance/bloc/bloc_event.dart';
 import 'package:equipment_maintenance/bloc/equipment_list_bloc.dart';
 import 'package:equipment_maintenance/data/all_data.dart';
-import 'package:equipment_maintenance/widget/screen/equipment_list/widget/equipment_table.dart';
+import 'package:equipment_maintenance/widget/screen/equipment_table/widget/equipment_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/bloc_state.dart';
 import '../../model_bloc_data_selector.dart';
 
 @RoutePage()
-class EquipmentListScreen extends StatelessWidget {
-  const EquipmentListScreen({super.key});
+class EquipmentTableScreen extends StatelessWidget {
+  const EquipmentTableScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

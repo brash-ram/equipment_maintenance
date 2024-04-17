@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart';
 import 'package:paged_datatable/l10n/generated/l10n.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -12,7 +9,6 @@ import 'api/api_repository.dart';
 import 'api/table_repository.dart';
 import 'core/router.dart';
 import 'logging.dart';
-import 'package:http/io_client.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

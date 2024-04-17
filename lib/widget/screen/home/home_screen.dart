@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:equipment_maintenance/core/router.dart';
 import 'package:flutter/material.dart';
 
+import '../../../i18n/strings.g.dart';
+
 @RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: const [
-        EquipmentListRoute(),
+        EquipmentTableRoute(),
         EquipmentComplexListRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBar(
@@ -21,14 +23,14 @@ class HomeScreen extends StatelessWidget {
         unselectedItemColor: Theme.of(context).unselectedWidgetColor,
         selectedLabelStyle: Theme.of(context).textTheme.labelMedium,
         unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.table_rows),
-            label: 'Таблица',
+            icon: const Icon(Icons.table_rows),
+            label: Translations.of(context).home.table,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Комплексный список',
+            icon: const Icon(Icons.list),
+            label: Translations.of(context).home.list,
           ),
         ],
       ),

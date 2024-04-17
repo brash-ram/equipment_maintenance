@@ -1,0 +1,48 @@
+app:
+  name: Equipment maintenance
+
+equipment:
+  fields:
+    id: ID
+    code: Код
+    name: Наименование
+    status: Статус
+    criticality: Критичность
+    department: Отдел
+    hierarchyLevelType: Тип актива в структуре
+    costCode: Код затрат
+    inventoryNumber: Инвентарный номер
+    model: Модель
+    commissDate: Дата ввода в эксплуатацию
+    initialValue: Первичная стоимость
+    serialNumber: Серийный номер
+    installationDate: Дата установки
+    ecology: Экология
+    safety: Безопасность
+    dormantCauseName: Причина остановки
+    dormantStartDate: Начало неактивности
+    dormantEndDate: Окончание неактивности
+  details:
+    general: Общие данные
+    passport: Паспорт
+    operatingParameters: Параметры эксплуатации
+
+table:
+  detailsButton: Подробнее
+  clearFilters: Очистить фильтры
+  reloadDate: Обновить данные с сервера
+
+enums:
+  equipmentStatusCode:
+    installed: В эксплуатации
+    withdrawn: Выведено из эксплуатации
+  criticalityCode:
+    _1: Очень критично
+    _2: Критично
+    _3: Средне критично
+    _4: Мало критично
+    _5: Не критично
+
+home:
+  table: Таблица
+  list: Комплексный список
