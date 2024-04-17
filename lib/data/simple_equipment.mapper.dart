@@ -39,6 +39,9 @@ class SimpleEquipmentMapper extends ClassMapperBase<SimpleEquipment> {
   static String _$criticality(SimpleEquipment v) => v.criticality;
   static const Field<SimpleEquipment, String> _f$criticality =
       Field('criticality', _$criticality);
+  static bool _$selected(SimpleEquipment v) => v.selected;
+  static const Field<SimpleEquipment, bool> _f$selected =
+      Field('selected', _$selected, opt: true, def: false);
 
   @override
   final MappableFields<SimpleEquipment> fields = const {
@@ -49,6 +52,7 @@ class SimpleEquipmentMapper extends ClassMapperBase<SimpleEquipment> {
     #status: _f$status,
     #criticalityCode: _f$criticalityCode,
     #criticality: _f$criticality,
+    #selected: _f$selected,
   };
 
   static SimpleEquipment _instantiate(DecodingData data) {
@@ -59,7 +63,8 @@ class SimpleEquipmentMapper extends ClassMapperBase<SimpleEquipment> {
         statusCode: data.dec(_f$statusCode),
         status: data.dec(_f$status),
         criticalityCode: data.dec(_f$criticalityCode),
-        criticality: data.dec(_f$criticality));
+        criticality: data.dec(_f$criticality),
+        selected: data.dec(_f$selected));
   }
 
   @override
@@ -122,7 +127,8 @@ abstract class SimpleEquipmentCopyWith<$R, $In extends SimpleEquipment, $Out>
       EquipmentStatusCode? statusCode,
       String? status,
       String? criticalityCode,
-      String? criticality});
+      String? criticality,
+      bool? selected});
   SimpleEquipmentCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -143,7 +149,8 @@ class _SimpleEquipmentCopyWithImpl<$R, $Out>
           EquipmentStatusCode? statusCode,
           String? status,
           String? criticalityCode,
-          String? criticality}) =>
+          String? criticality,
+          bool? selected}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (code != null) #code: code,
@@ -151,7 +158,8 @@ class _SimpleEquipmentCopyWithImpl<$R, $Out>
         if (statusCode != null) #statusCode: statusCode,
         if (status != null) #status: status,
         if (criticalityCode != null) #criticalityCode: criticalityCode,
-        if (criticality != null) #criticality: criticality
+        if (criticality != null) #criticality: criticality,
+        if (selected != null) #selected: selected
       }));
   @override
   SimpleEquipment $make(CopyWithData data) => SimpleEquipment(
@@ -161,7 +169,8 @@ class _SimpleEquipmentCopyWithImpl<$R, $Out>
       statusCode: data.get(#statusCode, or: $value.statusCode),
       status: data.get(#status, or: $value.status),
       criticalityCode: data.get(#criticalityCode, or: $value.criticalityCode),
-      criticality: data.get(#criticality, or: $value.criticality));
+      criticality: data.get(#criticality, or: $value.criticality),
+      selected: data.get(#selected, or: $value.selected));
 
   @override
   SimpleEquipmentCopyWith<$R2, SimpleEquipment, $Out2> $chain<$R2, $Out2>(

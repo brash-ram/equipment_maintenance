@@ -23,11 +23,11 @@ class HomeScreen extends StatelessWidget {
         unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Список',
+            icon: Icon(Icons.table_rows),
+            label: 'Таблица',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.list),
             label: 'Комплексный список',
           ),
         ],

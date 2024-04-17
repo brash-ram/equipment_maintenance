@@ -1,10 +1,11 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:equatable/equatable.dart';
 import 'package:equipment_maintenance/data/enum/equipment_status_code.dart';
 
 part 'simple_equipment.mapper.dart';
 
 @MappableClass()
-class SimpleEquipment with SimpleEquipmentMappable {
+class SimpleEquipment extends Equatable  with SimpleEquipmentMappable{
 
   SimpleEquipment({
     required this.id,
@@ -13,7 +14,8 @@ class SimpleEquipment with SimpleEquipmentMappable {
     required this.statusCode,
     required this.status,
     required this.criticalityCode,
-    required this.criticality
+    required this.criticality,
+    this.selected = false,
   });
 
   final String id;
@@ -30,4 +32,18 @@ class SimpleEquipment with SimpleEquipmentMappable {
   final String criticalityCode;
 
   final String criticality;
+
+  bool selected;
+
+  @override
+  List<Object?> get props => [
+    id,
+    code,
+    name,
+    statusCode,
+    status,
+    criticality,
+    criticalityCode,
+    selected
+  ];
 }

@@ -39,9 +39,6 @@ class App extends StatelessWidget {
             final appRouter = AppRouter();
             return MaterialApp.router(
               localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
                 PagedDataTableLocalization.delegate
               ],
               debugShowCheckedModeBanner: false,
