@@ -52,6 +52,7 @@ class _EquipmentTableState extends State<EquipmentTable> {
         ),
         headerTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
           fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis
         )
       ),
       child: PagedDataTable<String, SimpleEquipment>(
@@ -139,14 +140,14 @@ class _EquipmentTableState extends State<EquipmentTable> {
           ),
           LargeTextTableColumn(
             title: Center(child: Text(fields.name, textAlign: TextAlign.center)),
-            size: const FractionalColumnSize(0.35),
+            size: const FractionalColumnSize(0.3),
             getter: (value, i) => value.name,
             setter: (value, newValue, rowIndex) => true,
             fieldLabel: fields.name,
           ),
           TableColumn(
             title: Center(child: Text(fields.status, textAlign: TextAlign.center)),
-            size: const FractionalColumnSize(0.4),
+            size: const FractionalColumnSize(0.35),
             cellBuilder: (context, item, i) => SizedBox.expand(
               child: Container(
                 decoration: BoxDecoration(
@@ -166,7 +167,7 @@ class _EquipmentTableState extends State<EquipmentTable> {
           ),
           TableColumn(
             title: Center(child: Text(fields.criticality, textAlign: TextAlign.center)),
-            size: const FractionalColumnSize(0.5),
+            size: const FractionalColumnSize(0.52),
             cellBuilder: (context, item, i) => SizedBox.expand(
               child: Container(
                 decoration: BoxDecoration(
