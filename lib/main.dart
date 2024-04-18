@@ -7,8 +7,8 @@ import 'i18n/strings.g.dart';
 void main() {
   initializeMappers();
   WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
-  // LocaleSettings.setLocale(AppLocale.en);
+  // LocaleSettings.useDeviceLocale();
+  LocaleSettings.setLocale(AppLocale.en);
   // LocaleSettings.setLocale(AppLocale.ruRu);
   runApp(TranslationProvider(child: const App()));
 }
